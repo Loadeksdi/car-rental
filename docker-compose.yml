@@ -2,8 +2,8 @@ version: '3.1'
 
 services:
   user:
-    build: .
-    command: pnpm run dev
+    build: user/
+    command: pnpm run start
     ports:
       - "3000:3000"
     depends_on:
@@ -11,17 +11,13 @@ services:
     environment:
       DATABASE_URL: postgres://todoapp@postgres/todos
   cart:
-    build: .
-    command: pnpm run dev
+    build: cart/
+    command: pnpm run start
     ports:
       - "3001:3001"
-    depends_on:
-      - db
-    environment:
-      DATABASE_URL: postgres://todoapp@postgres/todos
   catalog:
-    build: .
-    command: pnpm run dev
+    build: catalog/
+    command: pnpm run start
     ports:
       - "3002:3002"
     depends_on:
@@ -29,14 +25,14 @@ services:
     environment:
       DATABASE_URL: postgres://todoapp@postgres/todos
   reservation:
-    build: .
-    command: pnpm run dev
+    build: reservation/
+    command: pnpm run start
     ports:
       - "3003:3003"
     depends_on:
       - db
     environment:
-      DATABASE_URL: postgres://todoapp@postgres/todos
+      DATABASE_URL: postgres://postgre@postgres/todos
   db:
     image: postgres
     restart: always
