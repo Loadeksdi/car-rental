@@ -1,23 +1,28 @@
-import { User } from "domain/entity/user";
-import { UserRepository } from "domain/repository/user-repository";
+import { User } from "../domain/entity/user";
+import { UserRepository } from "../domain/repository/user-repository";
 import { inject, injectable } from "inversify";
-import { TYPES } from "types";
+import { TYPES } from "../types";
+import { UserDto } from "../application/dto/user-dto"
 
 @injectable()
 export class UserService {
     @inject(TYPES.UserRepository)
     private _userRepository!: UserRepository;
 
-    findUser(id: string): Promise<User> {
-        return this._userRepository.getUser(id);
+    async findUser(id: string): Promise<UserDto> {
+        let user = await this._userRepository.getUser(id);
+        if (!user){
+            throw new Error('User not found');
+        }
+        return new UserDto(user);
     }
 
-    checkUserExists(username: string): Promise<boolean> {
-        return this._userRepository.checkUserExists(username);
+    async checkUserExists(username: string): Promise<boolean> {
+        return await this._userRepository.checkUserExists(username);
     }
 
-    createUser(body: any): Promise<void> {
+    async createUser(body: any): Promise<void> {
         const user = new User(body.id, body.username, body.password, body.email);
-        return this._userRepository.registerUser(user);
+        return await this._userRepository.registerUser(user);
     }
 }

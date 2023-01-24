@@ -1,3 +1,4 @@
+import 'reflect-metadata'
 import Koa from 'koa';
 import bodyParser from 'koa-bodyparser';
 import { HTTPRouter } from './http-router';
@@ -14,3 +15,4 @@ app.use(router.allowedMethods());
 app.use(bodyParser());
 
 app.listen(process.env.PORT);
+

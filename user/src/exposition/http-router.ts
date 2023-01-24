@@ -1,6 +1,6 @@
 import Router from "@koa/router";
 import { inject, injectable } from "inversify";
-import { TYPES } from "types";
+import { TYPES } from "../types";
 import { UserController } from "./user-controller";
 
 @injectable()
@@ -10,7 +10,8 @@ export class HTTPRouter {
     get(): Router {
         const router = new Router();
         router.get("/user/:id", async (ctx) => {
-            ctx.body = await this._userController.getUser(ctx.params.id);
+            ctx.body = "miaou";
+            //ctx.body = await this._userController.getUser(ctx.params.id);
         });
         router.get("/user/:username/exists", async (ctx) => {
             ctx.body = await this._userController.checkUserExists(ctx);
