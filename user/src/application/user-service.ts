@@ -22,7 +22,6 @@ export class UserService {
     }
 
     async createUser(body: any): Promise<void> {
-        const user = new User(body.id, body.username, body.password, body.email);
-        return await this._userRepository.registerUser(user);
+        return await this._userRepository.registerUser(body);
     }
 }

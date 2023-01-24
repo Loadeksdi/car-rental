@@ -10,8 +10,7 @@ export class HTTPRouter {
     get(): Router {
         const router = new Router();
         router.get("/user/:id", async (ctx) => {
-            ctx.body = "miaou";
-            //ctx.body = await this._userController.getUser(ctx.params.id);
+            ctx.body = await this._userController.getUser(ctx.params.id);
         });
         router.get("/user/:username/exists", async (ctx) => {
             ctx.body = await this._userController.checkUserExists(ctx);

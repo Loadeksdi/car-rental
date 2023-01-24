@@ -1,6 +1,6 @@
 import {User} from "../../domain/entity/user"
 export class UserDto {
-    readonly id: string;
+    readonly id: number;
     readonly username: string
     readonly email: string
 
