@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc --build",
     "watch": "tsc-watch --onSuccess \"node dist/exposition/index.js\"",
-    "start": "tsc --build && node dist/exposition/index.js"
+    "start": "tsc --build && node dist/index.js"
   },
   "keywords": [],
   "author": "",

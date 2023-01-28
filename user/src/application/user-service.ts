@@ -6,8 +6,7 @@ import { UserDto } from "../application/dto/user-dto"
 
 @injectable()
 export class UserService {
-    @inject(TYPES.UserRepository)
-    private _userRepository!: UserRepository;
+    @inject(TYPES.UserRepository) private _userRepository!: UserRepository;
 
     async findUser(id: string): Promise<UserDto> {
         let user = await this._userRepository.getUser(id);
