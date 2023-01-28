@@ -18,6 +18,6 @@ export class UserDatabaseRepository implements UserRepository {
     }
     
     async registerUser(user: User): Promise<void> {
-        await this.sql`INSERT INTO users(username, password, email) VALUES (${user.username}, ${user.password}, ${user.email})`;
+        await this.sql`INSERT INTO users(username, password, email, role) VALUES (${user.username}, ${user.password}, ${user.email}, ${user.role})`;
     }
 }

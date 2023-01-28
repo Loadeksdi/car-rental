@@ -4,6 +4,7 @@ export class User {
         readonly username: string,
         readonly password: string,
         readonly email: string,
+        readonly role: string
     ) {}
 
 
