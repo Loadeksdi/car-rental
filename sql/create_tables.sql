@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS users(
 
 CREATE TABLE IF NOT EXISTS cars(
     id SERIAL PRIMARY KEY,
-    constructor varchar(250) NOT NULL,
+    constructorName varchar(250) NOT NULL,
     model varchar(250) NOT NULL,
     pricePerDay int NOT NULL
 );
