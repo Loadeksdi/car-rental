@@ -12,7 +12,7 @@ export class UserController {
         let user: UserDto;
         try {
             user = await this._userService.findUser(id);
-        } catch(error){
+        } catch (error) {
             throw error;
         }
         return user;
@@ -22,10 +22,15 @@ export class UserController {
         return await this._userService.checkUserExists(ctx.params.username);
     }
 
-    async createUser(ctx: RouterContext) {
+    async createUser(ctx: RouterContext): Promise<UserDto> {
         if (!ctx.request.body) {
-            return;
+            throw new Error('No body provided');
         }
-        return await this._userService.createUser(ctx.request.body);
+        try {
+            const user = await this._userService.createUser(ctx.request.body);
+            return new UserDto(user);
+        } catch (error) {
+            throw error;
+        }
     }
 }

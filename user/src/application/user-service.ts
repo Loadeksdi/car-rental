@@ -20,7 +20,12 @@ export class UserService {
         return await this._userRepository.checkUserExists(username);
     }
 
-    async createUser(body: any): Promise<void> {
-        return await this._userRepository.registerUser(body);
+    async createUser(body: any): Promise<User> {
+        try {
+            await this._userRepository.registerUser(body);
+            return body as User;
+        } catch (error) {
+            throw error;
+        }
     }
 }
