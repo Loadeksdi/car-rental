@@ -22,33 +22,43 @@ export class CatalogController {
     }
 
     async listCars(ctx: RouterContext) {
-        if(!ctx.headers.username){
-            throw new Error('No userid header provided');
-        }
-        if(ctx.headers.username instanceof Array){
-            throw new Error('Multiple userid headers provided');
+        let username;
+        try {
+            username = this.validateHeaders(ctx);
+        } catch (error) {
+            throw error;
         }
         try {
-            return await this._catalogService.getCarsFromCatalog(ctx.headers.username);
+            return await this._catalogService.getCarsFromCatalog(username);
         } catch (error) {
             throw error;
         }
     }
 
     async getCar(ctx: RouterContext) {
-        if(!ctx.headers.username){
-            throw new Error('No userid header provided');
-        }
-        if(ctx.headers.username instanceof Array){
-            throw new Error('Multiple userid headers provided');
+        let username;
+        try {
+            username = this.validateHeaders(ctx);
+        } catch (error) {
+            throw error;
         }
         if (!ctx.params.id) {
             throw new Error('No id provided');
         }
         try {
-            return await this._catalogService.getCarFromCatalog(ctx.headers.username, parseInt(ctx.params.id));
+            return await this._catalogService.getCarFromCatalog(username, parseInt(ctx.params.id));
         } catch (error) {
             throw error;
         }
+    }
+
+    private validateHeaders(ctx: RouterContext): string {
+        if(!ctx.headers.user){
+            throw new Error('No user header provided');
+        }
+        if(ctx.headers.user instanceof Array){
+            throw new Error('Multiple user headers provided');
+        }
+        return ctx.headers.user;
     }
 }
