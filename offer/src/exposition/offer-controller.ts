@@ -8,20 +8,26 @@ import { Offer } from "../domain/entity/offer";
 export class OfferController {
     @inject(TYPES.OfferService) private _offerService!: OfferService;
 
-    async getOffers() {
+    async getOffers(ctx: RouterContext) {
+        if(!ctx.headers.user){
+            throw new Error('No userId header provided');
+        }
         let offers: Offer[];
         try {
-            offers = await this._offerService.findAllOffers();
+            offers = await this._offerService.findAllOffers(ctx.headers.user as string);
         } catch (error) {
             throw error;
         }
         return offers;
     }
 
-    async getOffersWithCriteria(criteria: Object) {
+    async getOffersWithCriteria(ctx: RouterContext, criteria: Object) {
+        if(!ctx.headers.user){
+            throw new Error('No userId header provided');
+        }
         let offers: Offer[];
         try {
-            offers = await this._offerService.findOffersWithCriteria(criteria);
+            offers = await this._offerService.findOffersWithCriteria(ctx.headers.user as string, criteria);
         } catch (error) {
             throw error;
         }
@@ -29,11 +35,14 @@ export class OfferController {
     }
 
     async createOffer(ctx: RouterContext): Promise<Offer> {
+        if(!ctx.headers.userid){
+            throw new Error('No userId header provided');
+        }
         if (!ctx.request.body) {
             throw new Error('No body provided');
         }
         try {
-            const offer = await this._offerService.createOffer(ctx.request.body);
+            const offer = await this._offerService.createOffer(parseInt(ctx.headers.userid as string), ctx.request.body);
             return new Offer(offer.id, offer.carId, offer.city, offer.dailyPrice);
         } catch (error) {
             throw error;

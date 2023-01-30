@@ -27,5 +27,6 @@ CREATE TABLE offers (
   id SERIAL PRIMARY KEY,
   carid INT NOT NULL,
   city VARCHAR(255) NOT NULL,
-  dailyprice DECIMAL(10,2) NOT NULL
+  dailyprice DECIMAL(10,2) NOT NULL,
+  FOREIGN KEY (carid) REFERENCES cars(id)
 );

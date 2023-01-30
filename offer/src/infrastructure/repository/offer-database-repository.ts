@@ -17,12 +17,12 @@ export class OfferDatabaseRepository implements OfferRepository {
     };
 
     async getOffers(): Promise<Offer[] | undefined> {
-        const offers = await this.sql<Offer[]>`SELECT * FROM offers`;
+        const offers = await this.sql<Offer[]>`SELECT * FROM offers JOIN cars ON offers.carid = cars.id`;
         return offers;
     }
 
     async getOffersWithCriteria(criteria: Criteria): Promise<Offer[] | undefined> {
-        const offers = await this.sql<Offer[]>`SELECT * FROM offers ${
+        const offers = await this.sql<Offer[]>`SELECT * FROM offers JOIN cars ON offers.carid = cars.id ${
             criteria.city
                 ? this.sql`WHERE city = ${criteria.city}`
                 : this.sql`WHERE TRUE = TRUE`
