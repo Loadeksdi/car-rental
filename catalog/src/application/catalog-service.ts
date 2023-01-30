@@ -11,7 +11,7 @@ export class CatalogService {
     async addCarToCatalog(userId: number, body: any): Promise<Car> {
         try {
             const isAdmin = await ExternalCalls.isUserAgent(userId);
-            if(!isAdmin){
+            if (!isAdmin) {
                 throw new Error("Unsupported operation for user");
             }
             await this._catalogRepository.addCarToCatalog(body);
@@ -21,18 +21,24 @@ export class CatalogService {
         }
     }
 
-    async getCarsFromCatalog(userId: number): Promise<Car[]> {
+    async getCarsFromCatalog(username: string): Promise<Car[]> {
         try {
-            await ExternalCalls.isUserAgent(userId);
+            const doesUserExist = await ExternalCalls.doesUserExist(username);
+            if (!doesUserExist) {
+                throw new Error("User does not exist");
+            }
             return await this._catalogRepository.getCarsFromCatalog();
         } catch (error) {
             throw error;
         }
     }
 
-    async getCarFromCatalog(userId: number, carId: number): Promise<Car> {
+    async getCarFromCatalog(username: string, carId: number): Promise<Car> {
         try {
-            await ExternalCalls.isUserAgent(userId);
+            const doesUserExist = await ExternalCalls.doesUserExist(username);
+            if (!doesUserExist) {
+                throw new Error("User does not exist");
+            }
             return await this._catalogRepository.getCarFromCatalog(carId);
         } catch (error) {
             throw error;

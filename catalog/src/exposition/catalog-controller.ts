@@ -22,25 +22,31 @@ export class CatalogController {
     }
 
     async listCars(ctx: RouterContext) {
-        if(!ctx.headers.userid){
+        if(!ctx.headers.username){
             throw new Error('No userid header provided');
         }
+        if(ctx.headers.username instanceof Array){
+            throw new Error('Multiple userid headers provided');
+        }
         try {
-            return await this._catalogService.getCarsFromCatalog(parseInt(ctx.headers.userid as string));
+            return await this._catalogService.getCarsFromCatalog(ctx.headers.username);
         } catch (error) {
             throw error;
         }
     }
 
     async getCar(ctx: RouterContext) {
-        if(!ctx.headers.userid){
+        if(!ctx.headers.username){
             throw new Error('No userid header provided');
+        }
+        if(ctx.headers.username instanceof Array){
+            throw new Error('Multiple userid headers provided');
         }
         if (!ctx.params.id) {
             throw new Error('No id provided');
         }
         try {
-            return await this._catalogService.getCarFromCatalog(parseInt(ctx.headers.userid as string), parseInt(ctx.params.id));
+            return await this._catalogService.getCarFromCatalog(ctx.headers.username, parseInt(ctx.params.id));
         } catch (error) {
             throw error;
         }
