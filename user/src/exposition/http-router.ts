@@ -20,13 +20,16 @@ export class HTTPRouter {
         router.get("/user/:username/exists", async (ctx) => {
             ctx.body = await this._userController.checkUserExists(ctx);
         });
+        router.get("/user/:id/isAgent", async (ctx) => {
+            ctx.body = await this._userController.isAgent(ctx);
+        });
         router.post("/user", async (ctx) => {
             try {
                 ctx.status = 201;
                 ctx.body = await this._userController.createUser(ctx);
             } catch (error) {
                 ctx.status = 400;
-                ctx.body = "Bad request"
+                ctx.body = "Bad request";
             }
         });
         return router;

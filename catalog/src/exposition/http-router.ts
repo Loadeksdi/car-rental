@@ -18,6 +18,22 @@ export class HTTPRouter {
                 ctx.body = "Bad request"
             }
         });
+        router.get("/catalog/:id", async (ctx) => {
+            try {
+                ctx.body = await this._catalogController.getCar(ctx);
+            } catch (error) {
+                ctx.status = 400;
+                ctx.body = "Bad request"
+            }
+        });
+        router.get("/catalog", async (ctx) => {
+            try {
+                ctx.body = await this._catalogController.listCars(ctx);
+            } catch (error) {
+                ctx.status = 400;
+                ctx.body = "Bad request"
+            }
+        });
         return router;
     }
 }

@@ -9,11 +9,12 @@ export class UserService {
     @inject(TYPES.UserRepository) private _userRepository!: UserRepository;
 
     async findUser(id: string): Promise<UserDto> {
-        let user = await this._userRepository.getUser(id);
-        if (!user){
-            throw new Error('User not found');
+        try {
+            let user = await this._userRepository.getUser(parseInt(id));
+            return new UserDto(user);
+        } catch(error) {
+            throw error;
         }
-        return new UserDto(user);
     }
 
     async checkUserExists(username: string): Promise<boolean> {
@@ -27,5 +28,9 @@ export class UserService {
         } catch (error) {
             throw error;
         }
+    }
+
+    async isAgent(userId: number): Promise<boolean> {
+        return await this._userRepository.isAgent(userId);
     }
 }

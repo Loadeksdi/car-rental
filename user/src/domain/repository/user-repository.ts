@@ -4,8 +4,10 @@ export interface UserRepository {
 
     registerUser(user: User): Promise<void>;
 
-    getUser(userId: string): Promise<User | undefined>;
+    getUser(userId: number): Promise<User>;
 
     checkUserExists(username: string): Promise<boolean>;
+
+    isAgent(userId: number): Promise<boolean>;
 
 }

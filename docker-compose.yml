@@ -13,20 +13,20 @@ services:
   #   command: pnpm run start
   #   ports:
   #     - "3001:3001"
-  # catalog:
-  #   build: ./catalog
-  #   command: pnpm run start
-  #   ports:
-  #     - "3002:3002"
-  #   depends_on:
-  #     - db
-  # reservation:
-  #   build: ./reservation
-  #   command: pnpm run start
-  #   ports:
-  #     - "3003:3003"
-  #   depends_on:
-  #     - db
+  catalog:
+    build: ./catalog
+    command: pnpm run start
+    ports:
+      - "3002:3002"
+    depends_on:
+      - db
+  offer:
+    build: ./offer
+    command: pnpm run start
+    ports:
+      - "3003:3003"
+    depends_on:
+      - db
   db:
     image: postgres
     restart: always

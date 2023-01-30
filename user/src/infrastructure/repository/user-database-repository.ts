@@ -7,8 +7,11 @@ import { injectable } from "inversify";
 export class UserDatabaseRepository implements UserRepository {
     private sql = postgres("postgres://user:example@db:5432/rental", {})
 
-    async getUser(userId: string): Promise<User | undefined> {
+    async getUser(userId: number): Promise<User> {
         const [user]: [User?] = await this.sql`SELECT * FROM users WHERE id = ${userId}`;
+        if (user === undefined) {
+            throw new Error("User not found");
+        }
         return user;
     }
 
@@ -19,7 +22,16 @@ export class UserDatabaseRepository implements UserRepository {
 
     async registerUser(user: User): Promise<void> {
         try {
-            await this.sql`INSERT INTO users(username, password, email, userrole) VALUES (${user.username}, ${user.password}, ${user.email}, ${user.role})`;
+            await this.sql`INSERT INTO users(username, password, email, role) VALUES (${user.username}, ${user.password}, ${user.email}, ${user.role})`;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async isAgent(userId: number): Promise<boolean> {
+        try {
+            const user = await this.getUser(userId);
+            return user?.role === "agent";
         } catch (error) {
             throw error;
         }

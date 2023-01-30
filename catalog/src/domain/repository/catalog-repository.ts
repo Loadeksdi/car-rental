@@ -1,7 +1,11 @@
-import { Car } from "domain/entity/car";
+import { Car } from "../entity/car";
 
 export interface CatalogRepository {
 
-    registerCar(car: Car): Promise<void>;
+    addCarToCatalog(car: Car): Promise<void>;
+
+    getCarsFromCatalog(): Promise<Car[]>;
+
+    getCarFromCatalog(id: number): Promise<Car>;
 
 }

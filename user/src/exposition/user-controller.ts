@@ -33,4 +33,8 @@ export class UserController {
             throw error;
         }
     }
+
+    async isAgent(ctx: RouterContext) {
+        return await this._userService.isAgent(parseInt(ctx.params.id));
+    }
 }
