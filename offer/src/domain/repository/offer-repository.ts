@@ -2,7 +2,7 @@ import { Offer } from "../entity/offer";
 
 export interface OfferRepository {
 
-    registerOffer(offer: Offer): Promise<void>;
+    registerOffer(offer: Offer): Promise<Offer>;
 
     getOffers(): Promise<Offer[] | undefined>;
 

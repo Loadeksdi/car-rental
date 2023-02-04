@@ -8,9 +8,10 @@ import type { Criteria } from "types/criteria";
 export class OfferDatabaseRepository implements OfferRepository {
     private sql = postgres("postgres://user:example@db:5432/rental", {})
 
-    async registerOffer(offer: Offer): Promise<void> {
+    async registerOffer(offer: Offer): Promise<Offer> {
         try {
-            await this.sql`INSERT INTO offers(carId, city, dailyPrice) VALUES (${offer.carId}, ${offer.city}, ${offer.dailyPrice})`;
+            const [newOffer]: [Offer] = await this.sql`INSERT INTO offers (carId, city, dailyPrice) VALUES (${offer.carId}, ${offer.city}, ${offer.dailyPrice}) RETURNING *`;
+            return newOffer;
         } catch (error) {
             throw error;
         }
@@ -22,19 +23,16 @@ export class OfferDatabaseRepository implements OfferRepository {
     }
 
     async getOffersWithCriteria(criteria: Criteria): Promise<Offer[] | undefined> {
-        const offers = await this.sql<Offer[]>`SELECT * FROM offers JOIN cars ON offers.carid = cars.id ${
-            criteria.city
-                ? this.sql`WHERE city = ${criteria.city}`
-                : this.sql`WHERE TRUE = TRUE`
-        } ${
-            criteria.dailyPriceMax
+        const offers = await this.sql<Offer[]>`SELECT * FROM offers JOIN cars ON offers.carid = cars.id ${criteria.city
+            ? this.sql`WHERE city = ${criteria.city}`
+            : this.sql`WHERE TRUE = TRUE`
+            } ${criteria.dailyPriceMax
                 ? this.sql`AND dailyprice <= ${criteria.dailyPriceMax}`
                 : this.sql`AND TRUE = TRUE`
-        } ${
-            criteria.dailyPriceMin
+            } ${criteria.dailyPriceMin
                 ? this.sql`AND dailyprice >= ${criteria.dailyPriceMin}`
                 : this.sql`AND TRUE = TRUE`
-        }`;
+            }`;
         return offers;
     }
 

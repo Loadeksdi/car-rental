@@ -1,4 +1,5 @@
 CREATE TYPE roleType AS ENUM ('customer', 'agent');
+
 CREATE TABLE IF NOT EXISTS users(
     id SERIAL PRIMARY KEY,
     username varchar(250) NOT NULL,
@@ -13,20 +14,20 @@ CREATE TABLE IF NOT EXISTS cars(
     model varchar(250) NOT NULL
 );
 
--- CREATE TABLE IF NOT EXISTS reservations(
---     id SERIAL PRIMARY KEY,
---     userId int NOT NULL,
---     offerId int NOT NULL,
---     start_date DATE NOT NULL,
---     end_date DATE NOT NULL,
---     FOREIGN KEY (offerId) REFERENCES rental_offers(id),
---     FOREIGN KEY (userId) REFERENCES users(id)
--- );
-
 CREATE TABLE offers (
   id SERIAL PRIMARY KEY,
   carid INT NOT NULL,
   city VARCHAR(255) NOT NULL,
-  dailyprice DECIMAL(10,2) NOT NULL,
+  dailyPrice DECIMAL(10,2) NOT NULL,
   FOREIGN KEY (carid) REFERENCES cars(id)
+);
+
+CREATE TABLE IF NOT EXISTS bookings(
+    id SERIAL PRIMARY KEY,
+    userId int NOT NULL,
+    offerId int NOT NULL,
+    startDate DATE NOT NULL,
+    endDate DATE NOT NULL,
+    FOREIGN KEY (userId) REFERENCES users(id),
+    FOREIGN KEY (offerId) REFERENCES offers(id)
 );

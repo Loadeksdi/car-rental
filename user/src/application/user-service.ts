@@ -24,8 +24,7 @@ export class UserService {
 
     async createUser(body: any): Promise<User> {
         try {
-            await this._userRepository.registerUser(body);
-            return body as User;
+            return await this._userRepository.registerUser(body);
         } catch (error) {
             throw error;
         }

@@ -20,9 +20,10 @@ export class UserDatabaseRepository implements UserRepository {
         return user !== undefined;
     }
 
-    async registerUser(user: User): Promise<void> {
+    async registerUser(user: User): Promise<User> {
         try {
-            await this.sql`INSERT INTO users(username, password, email, role) VALUES (${user.username}, ${user.password}, ${user.email}, ${user.role})`;
+            const [newUser]: [User] = await this.sql`INSERT INTO users(username, password, email, role) VALUES (${user.username}, ${user.password}, ${user.email}, ${user.role}) RETURNING *`;
+            return newUser;
         } catch (error) {
             throw error;
         }

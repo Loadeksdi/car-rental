@@ -2,7 +2,7 @@ import { User } from "domain/entity/user";
 
 export interface UserRepository {
 
-    registerUser(user: User): Promise<void>;
+    registerUser(user: User): Promise<User>;
 
     getUser(userId: number): Promise<User>;
 

@@ -8,11 +8,16 @@ export class CatalogDatabaseRepository implements CatalogRepository {
 
     private sql = postgres("postgres://user:example@db:5432/rental", {})
 
-    async addCarToCatalog(car: Car): Promise<void> {
-        await this.sql`INSERT INTO cars (constructorName, model) VALUES (${car.constructorName}, ${car.model})`;
+    async addCarToCatalog(car: Car): Promise<Car> {
+        try {
+            const [newCar]: [Car] = await this.sql`INSERT INTO cars (constructorName, model) VALUES (${car.constructorName}, ${car.model}) RETURNING *`;
+            return newCar;
+        } catch (error) {
+            throw error;
+        }
     }
 
-    async getCarsFromCatalog(): Promise<Car[]> { 
+    async getCarsFromCatalog(): Promise<Car[]> {
         return await this.sql<Car[]>`SELECT * FROM cars`;
     }
 

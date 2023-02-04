@@ -42,8 +42,7 @@ export class OfferController {
             throw new Error('No body provided');
         }
         try {
-            const offer = await this._offerService.createOffer(parseInt(ctx.headers.userid as string), ctx.request.body);
-            return new Offer(offer.id, offer.carId, offer.city, offer.dailyPrice);
+            return await this._offerService.createOffer(parseInt(ctx.headers.userid as string), ctx.request.body);
         } catch (error) {
             throw error;
         }

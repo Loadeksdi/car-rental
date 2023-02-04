@@ -8,25 +8,25 @@ import ExternalCalls from '../infrastructure/external-calls'
 export class OfferService {
     @inject(TYPES.OfferRepository) private _offerRepository!: OfferRepository;
 
-    async findAllOffers(user: string): Promise<Offer[]>{
+    async findAllOffers(user: string): Promise<Offer[]> {
         const userExist = await ExternalCalls.isUserExist(user);
-        if(!userExist){
+        if (!userExist) {
             throw new Error("User specified does not exist");
         }
         let offers = await this._offerRepository.getOffers();
-        if (!offers){
+        if (!offers) {
             throw new Error('No offer found');
         }
         return offers;
     }
 
-    async findOffersWithCriteria(user: string, criteria: Object): Promise<Offer[]>{
+    async findOffersWithCriteria(user: string, criteria: Object): Promise<Offer[]> {
         const userExist = await ExternalCalls.isUserExist(user);
-        if(!userExist){
+        if (!userExist) {
             throw new Error("User specified does not exist");
         }
         let offers = await this._offerRepository.getOffersWithCriteria(criteria);
-        if (!offers){
+        if (!offers) {
             throw new Error('No offer found with your criteria');
         }
         return offers;
@@ -34,12 +34,11 @@ export class OfferService {
 
     async createOffer(userid: number, body: any): Promise<Offer> {
         const isUserAdmin = await ExternalCalls.isUserAgent(userid);
-        if(!isUserAdmin){
+        if (!isUserAdmin) {
             throw new Error("User specified does not exist");
         }
         try {
-            await this._offerRepository.registerOffer(body);
-            return body as Offer;
+            return await this._offerRepository.registerOffer(body);
         } catch (error) {
             throw error;
         }
