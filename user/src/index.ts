@@ -9,4 +9,4 @@ const start = async () => {
 }
 
 start()
-console.log('Listening on http://localhost:3000')
+console.log(`Listening on http://localhost:${process.env.PORT}`)

@@ -6,7 +6,7 @@ import type { Criteria } from "types/criteria";
 
 @injectable()
 export class OfferDatabaseRepository implements OfferRepository {
-    private sql = postgres("postgres://user:example@db:5432/rental", {})
+    private sql = postgres(process.env.DB_CONNECTION_URL || "", {})
 
     async registerOffer(offer: Offer): Promise<Offer> {
         try {

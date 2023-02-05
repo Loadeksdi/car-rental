@@ -4,7 +4,8 @@ import bodyParser from 'koa-bodyparser'
 
 import { TYPES } from '../types'
 import { HTTPRouter } from './http-router'
-
+import dotenv from 'dotenv'
+dotenv.config()
 export interface IServer {
   start(): void
 }
@@ -23,6 +24,6 @@ export class Server {
     app.use(router.routes())
     app.use(router.allowedMethods());
 
-    app.listen(3004)
+    app.listen(process.env.PORT);
   }
 }

@@ -2,11 +2,11 @@ import { BookingRepository } from "../../domain/repository/booking-repository";
 import postgres from 'postgres'
 import { injectable } from "inversify";
 import { Booking } from "../../domain/entity/booking";
-
+require('dotenv').config()
 @injectable()
 export class BookingDatabaseRepository implements BookingRepository {
 
-    private sql = postgres("postgres://user:example@db:5432/rental", {})
+    private sql = postgres(process.env.DB_CONNECTION_URL || "", {})
 
     async getBookingsByUser(userId: number): Promise<Booking[]> {
         return await this.sql<Booking[]>`SELECT * FROM bookings WHERE userId = ${userId}`;

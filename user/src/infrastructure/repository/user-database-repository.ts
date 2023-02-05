@@ -5,7 +5,7 @@ import { injectable } from "inversify";
 
 @injectable()
 export class UserDatabaseRepository implements UserRepository {
-    private sql = postgres("postgres://user:example@db:5432/rental", {})
+    private sql = postgres(process.env.DB_CONNECTION_URL || "", {})
 
     async getUser(userId: number): Promise<User> {
         const [user]: [User?] = await this.sql`SELECT * FROM users WHERE id = ${userId}`;
