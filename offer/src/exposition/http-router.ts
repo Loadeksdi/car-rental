@@ -14,9 +14,9 @@ export class HTTPRouter {
             if (!Object.keys(ctx.request.query as object).length) {
                 try {
                     ctx.body = await this._offerController.getOffers(ctx);
-                } catch(error){
+                } catch (error) {
                     ctx.status = 404;
-                    ctx.body = "No offers in database";
+                    ctx.body = { message: this.getErrorMessage(error) }
                 }
                 return;
             }
@@ -27,9 +27,9 @@ export class HTTPRouter {
                     dailyPriceMax: ctx.request.query.dailyPriceMax ? parseInt(ctx.request.query.dailyPriceMax as string) : undefined,
                 }
                 ctx.body = await this._offerController.getOffersWithCriteria(ctx, criteria);
-            } catch(error){
+            } catch (error) {
                 ctx.status = 404;
-                ctx.body = "Offers from criteria not found";
+                ctx.body = { message: this.getErrorMessage(error) }
             }
         });
         router.post("/offer", async (ctx) => {
@@ -38,9 +38,14 @@ export class HTTPRouter {
                 ctx.body = await this._offerController.createOffer(ctx);
             } catch (error) {
                 ctx.status = 400;
-                ctx.body = "Bad request"
+                ctx.body = { message: this.getErrorMessage(error) }
             }
         });
         return router;
+    }
+
+    getErrorMessage(error: unknown) {
+        if (error instanceof Error) return error.message
+        return String(error)
     }
 }

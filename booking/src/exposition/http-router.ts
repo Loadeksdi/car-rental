@@ -15,7 +15,7 @@ export class HTTPRouter {
                 ctx.body = await this._bookingController.book(ctx);
             } catch (error) {
                 ctx.status = 400;
-                ctx.body = "Bad request"
+                ctx.body = { message: this.getErrorMessage(error) }
             }
         });
         router.get("/booking/:id", async (ctx) => {
@@ -23,7 +23,7 @@ export class HTTPRouter {
                 ctx.body = await this._bookingController.getBookingById(ctx);
             } catch (error) {
                 ctx.status = 400;
-                ctx.body = "Bad request"
+                ctx.body = { message: this.getErrorMessage(error) }
             }
         });
         router.get("/booking", async (ctx) => {
@@ -31,7 +31,7 @@ export class HTTPRouter {
                 ctx.body = await this._bookingController.listBookings(ctx);
             } catch (error) {
                 ctx.status = 400;
-                ctx.body = "Bad request"
+                ctx.body = { message: this.getErrorMessage(error) }
             }
         });
         router.get("/booking/user/:userId", async (ctx) => {
@@ -39,9 +39,13 @@ export class HTTPRouter {
                 ctx.body = await this._bookingController.getBookingByUser(ctx);
             } catch (error) {
                 ctx.status = 400;
-                ctx.body = "Bad request"
+                ctx.body = { message: this.getErrorMessage(error) }
             }
         });
         return router;
+    }
+    getErrorMessage(error: unknown) {
+        if (error instanceof Error) return error.message
+        return String(error)
     }
 }

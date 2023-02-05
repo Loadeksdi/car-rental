@@ -15,7 +15,7 @@ export class HTTPRouter {
                 ctx.body = await this._catalogController.createCar(ctx);
             } catch (error) {
                 ctx.status = 400;
-                ctx.body = "Bad request"
+                ctx.body = { message: this.getErrorMessage(error) }
             }
         });
         router.get("/catalog/:id", async (ctx) => {
@@ -23,7 +23,7 @@ export class HTTPRouter {
                 ctx.body = await this._catalogController.getCar(ctx);
             } catch (error) {
                 ctx.status = 400;
-                ctx.body = "Bad request"
+                ctx.body = { message: this.getErrorMessage(error) }
             }
         });
         router.get("/catalog", async (ctx) => {
@@ -31,9 +31,13 @@ export class HTTPRouter {
                 ctx.body = await this._catalogController.listCars(ctx);
             } catch (error) {
                 ctx.status = 400;
-                ctx.body = "Bad request"
+                ctx.body = { message: this.getErrorMessage(error) }
             }
         });
         return router;
+    }
+    getErrorMessage(error: unknown) {
+        if (error instanceof Error) return error.message
+        return String(error)
     }
 }
