@@ -3,6 +3,7 @@ import { OfferRepository } from "../../domain/repository/offer-repository";
 import postgres from 'postgres'
 import { injectable } from "inversify";
 import type { Criteria } from "types/criteria";
+require('dotenv').config()
 
 @injectable()
 export class OfferDatabaseRepository implements OfferRepository {
@@ -18,12 +19,12 @@ export class OfferDatabaseRepository implements OfferRepository {
     };
 
     async getOffers(): Promise<Offer[] | undefined> {
-        const offers = await this.sql<Offer[]>`SELECT * FROM offers JOIN cars ON offers.carid = cars.id`;
+        const offers = await this.sql<Offer[]>`SELECT offers.*, cars.constructorName, cars.model FROM offers JOIN cars ON offers.carid = cars.id`;
         return offers;
     }
 
     async getOffersWithCriteria(criteria: Criteria): Promise<Offer[] | undefined> {
-        const offers = await this.sql<Offer[]>`SELECT * FROM offers JOIN cars ON offers.carid = cars.id ${criteria.city
+        const offers = await this.sql<Offer[]>`SELECT offers.*, cars.constructorName, cars.model FROM offers JOIN cars ON offers.carid = cars.id ${criteria.city
             ? this.sql`WHERE city = ${criteria.city}`
             : this.sql`WHERE TRUE = TRUE`
             } ${criteria.dailyPriceMax

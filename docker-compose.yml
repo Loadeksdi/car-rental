@@ -8,11 +8,11 @@ services:
       - "3000:3000"
     depends_on:
       - db
-  # cart:
-  #   build: ./cart
-  #   command: pnpm run start
-  #   ports:
-  #     - "3001:3001"
+  cart:
+    build: ./cart
+    command: pnpm run start
+    ports:
+      - "3001:3001"
   catalog:
     build: ./catalog
     command: pnpm run start

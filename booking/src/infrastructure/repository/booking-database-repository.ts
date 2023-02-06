@@ -15,7 +15,7 @@ export class BookingDatabaseRepository implements BookingRepository {
     async getBookingById(bookingId: number): Promise<Booking> {
         const [booking]: [Booking?] = await this.sql`SELECT * FROM bookings WHERE id = ${bookingId}`;
         if (!booking) {
-            throw new Error(`Car with id ${bookingId} not found`);
+            throw new Error(`Booking with id ${bookingId} not found`);
         }
         return booking;
     }

@@ -1,4 +1,5 @@
 CREATE TYPE roleType AS ENUM ('customer', 'agent');
+-- CREATE TYPE statusType AS ENUM('pending', 'confirmed');
 
 CREATE TABLE IF NOT EXISTS users(
     id SERIAL PRIMARY KEY,
@@ -14,7 +15,7 @@ CREATE TABLE IF NOT EXISTS cars(
     model varchar(250) NOT NULL
 );
 
-CREATE TABLE offers (
+CREATE TABLE IF NOT EXISTS offers (
   id SERIAL PRIMARY KEY,
   carid INT NOT NULL,
   city VARCHAR(255) NOT NULL,
@@ -31,3 +32,17 @@ CREATE TABLE IF NOT EXISTS bookings(
     FOREIGN KEY (userId) REFERENCES users(id),
     FOREIGN KEY (offerId) REFERENCES offers(id)
 );
+
+-- CREATE TABLE IF NOT EXISTS carts(
+--     id SERIAL PRIMARY KEY,
+--     userid int NOT NULL,
+--     status statusType NOT NULL
+-- )
+
+-- CREATE TABLE IF NOT EXISTS cart_items(
+--     id SERIAL PRIMARY KEY,
+--     cartid int NOT NULL,
+--     offerid int NOT NULL,
+--     startdate DATE NOT NULL,
+--     enddate DATE NOT NULL
+-- )

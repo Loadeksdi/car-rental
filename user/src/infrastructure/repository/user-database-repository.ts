@@ -2,6 +2,7 @@ import { User } from "domain/entity/user";
 import { UserRepository } from "domain/repository/user-repository";
 import postgres from 'postgres'
 import { injectable } from "inversify";
+require('dotenv').config()
 
 @injectable()
 export class UserDatabaseRepository implements UserRepository {
