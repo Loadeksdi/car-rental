@@ -18,8 +18,14 @@ It consists of 5 services:
 ## Getting Started
 To run the project, (considering you have Docker Compose installed and Docker running on your machine, if not: https://docs.docker.com/compose/install) the only thing you have to do is to go at the root of the project and then run the following command:
 ```
-docker-compose build && docker-compose up
+docker-compose build && docker-compose up -d
 ```
+
+Or this one, if the first doesn't work on your computer :
+```
+docker-compose build; docker-compose up -d
+```
+
 
 It will deploy the 5 services on your localhost from ports 3000 to 3004 and also port 5432 for the PostgreSQL database to run properly, and you can then play with the API using Postman by importing the configuration file **car-rental.postman_collection.json** located at the root of the project.
 

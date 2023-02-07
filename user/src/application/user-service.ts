@@ -11,7 +11,6 @@ export class UserService {
     async findUser(id: string): Promise<UserDto> {
         try {
             let user = await this._userRepository.getUser(parseInt(id));
-            console.log(user);
             return new UserDto(user);
         } catch(error) {
             throw error;
