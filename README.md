@@ -34,6 +34,7 @@ pnpm i
 ```
 
 ## Some details for API usage
+- The database and its tables are programmaticaly created by the docker-compose command, using the **sql/create_tables.sql** file. It should work properly but if not, you can also the the sql script manually.
 - The booking creation endpoint uses a fake email transport, please check the logs of the **booking service container** to get the url linking to the booking confirmation email example.
 - The list offers with creteria endpoint makes possible to use a dailyPriceMin, dailyPriceMax and city criteria to filter the offers, you can combine them easily, feel free to try it out.
 - When using some API endpoints, be careful to check your headers in your requests, especially if you want to test different users from the default configuration.
