@@ -14,10 +14,11 @@ export class BookingService {
             if (body.startDate > body.endDate || body.startDate < new Date()) {
                 throw new Error("Invalid booking dates");
             }
-            return await this._bookingRepository.addBooking(body);
+            const booking = await this._bookingRepository.addBooking(body);
+            await ExternalCalls.sendBookingConfirmation(userId, booking);
+            return booking;
         } catch (error) {
-            // Throws if user does not exist
-            throw new Error("User does not exist");
+            throw error;
         }
     }
 
