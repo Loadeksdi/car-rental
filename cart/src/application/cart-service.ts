@@ -54,10 +54,10 @@ export class CartService {
             if(body.userId === undefined){
                 throw new Error("userId is mandatory")
             }
-            if(body.offerId === undefined){
-                throw new Error("offerId is mandatory")
+            if(body.offerId === undefined || body.startDate === undefined || body.endDate === undefined){
+                throw new Error("cartItem informations are mandatory")
             }
-            return this._cartRepository.addItem(body.userId, body.offerId);
+            return this._cartRepository.addItem(body.userId, body.offerId, body.startDate, body.endDate);
         } catch (error) {
             throw error;
         }

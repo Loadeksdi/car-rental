@@ -5,6 +5,6 @@ export class Cart {
         readonly id: number,
         readonly userId: number,
         readonly status: string,
-        readonly cartItems: number[]
+        readonly cartItems: CartItem[]
     ) {}
 }

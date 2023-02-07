@@ -49,7 +49,7 @@ export class CartMemoryRepository implements CartRepository {
         return CartMemoryRepository.carts[cartIndex];
     }
 
-    addItem(userId: number, itemId: number): Cart{
+    addItem(userId: number, offerId: number, startDate: Date, endDate: Date): Cart{
         const cartIndex = CartMemoryRepository.carts.findIndex((c) => c.userId === userId && c.status === "pending");
         if (cartIndex === -1) {
             throw new Error(`User ${userId} does not have any pending cart`);
@@ -58,20 +58,20 @@ export class CartMemoryRepository implements CartRepository {
             ...CartMemoryRepository.carts[cartIndex],
             cartItems: [
               ...CartMemoryRepository.carts[cartIndex].cartItems,
-              itemId,
+              new CartItem(offerId, startDate, endDate),
             ],
         };
         return CartMemoryRepository.carts[cartIndex];
     }
 
-    removeItem(userId: number, itemId: number): Cart{
+    removeItem(userId: number, offerId: number): Cart{
         const cartIndex = CartMemoryRepository.carts.findIndex((c) => c.userId === userId && c.status === "pending");
         if (cartIndex === -1) {
             throw new Error(`User ${userId} does not have any pending cart`);
         }
         CartMemoryRepository.carts[cartIndex] = {
             ...CartMemoryRepository.carts[cartIndex],
-            cartItems: CartMemoryRepository.carts[cartIndex].cartItems.filter((i) => i !== itemId),
+            cartItems: CartMemoryRepository.carts[cartIndex].cartItems.filter((i) => i.offerId !== offerId),
         };
         return CartMemoryRepository.carts[cartIndex];
     }

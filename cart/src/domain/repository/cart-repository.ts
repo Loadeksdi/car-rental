@@ -6,7 +6,7 @@ export interface CartRepository {
     getUserCart(userId: number): Cart;
     clearUserCart(userId: number): Cart;
     submitUserCart(userId: number): Cart;
-    addItem(userId: number, itemId: number): Cart;
-    removeItem(userId: number, itemId: Number): Cart;
+    addItem(userId: number, offerId: number, startDate: Date, endDate: Date): Cart;
+    removeItem(userId: number, offerId: Number): Cart;
     isUserAlreadyHavingAPendingCart(userId: number): boolean;
 }
