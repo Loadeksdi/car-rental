@@ -20,11 +20,18 @@ To run the project, (considering you have Docker Compose installed and Docker ru
 ```
 docker-compose build && docker-compose up
 ```
-We also recommend using pnpm instead of npm or yarn to build the project, to install it, run the following command:
+
+It will deploy the 5 services on your localhost from ports 3000 to 3004 and also port 5432 for the PostgreSQL database to run properly, and you can then play with the API using Postman by importing the configuration file **car-rental.postman_collection.json** located at the root of the project.
+
+We also recommend using pnpm instead of npm or yarn to build the project without docker, to install it, run the following command:
 ```
 npm install -g pnpm
 ```
-It will deploy the 5 services on your localhost from ports 3000 to 3004 and also port 5432 for the PostgreSQL database to run properly, and you can then play with the API using Postman by importing the configuration file **car-rental.postman_collection.json** located at the root of the project.
+
+While browsing the code, your IDE may show you errors because we removed packages folders. If you want to remove these errors, run the following command in every microservice folder : 
+```
+pnpm i
+```
 
 ## Some details for API usage
 - The booking creation endpoint uses a fake email transport, please check the logs of the **booking service container** to get the url linking to the booking confirmation email example.
