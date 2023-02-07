@@ -43,6 +43,7 @@ export class CartService {
             if(body.userId === undefined){
                 throw new Error("userId is mandatory")
             }
+            ExternalCalls.createBookingFromCart(body.userId, this._cartRepository.getUserCart(body.userId));
             return this._cartRepository.submitUserCart(body.userId);
         } catch (error) {
             throw error;
