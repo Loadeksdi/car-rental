@@ -38,7 +38,7 @@ export class HTTPRouter {
         router.patch("/cart/submit", async (ctx) => {
             try {
                 ctx.status = 200;
-                ctx.body = this._cartController.submitUserCart(ctx);
+                ctx.body = await this._cartController.submitUserCart(ctx);
             } catch (error) {
                 ctx.status = 400;
                 ctx.body = { message: this.getErrorMessage(error) }

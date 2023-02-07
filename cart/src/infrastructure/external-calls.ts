@@ -21,4 +21,13 @@ export default class ExternalCalls {
             throw new Error('Call to booking service failed');
         }
     }
+
+    static async callPaymentService(): Promise<boolean> {
+        try {
+            /** Implement the call to the payment provider when the decision is made*/
+            return true;
+        } catch (error) {
+            throw new Error('Call to payment provider failed');
+        }
+    }
 }

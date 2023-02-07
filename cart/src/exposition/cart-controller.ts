@@ -41,12 +41,12 @@ export class CartController {
         }
     }
 
-    submitUserCart(ctx: RouterContext) {
+    async submitUserCart(ctx: RouterContext) {
         if (!ctx.request.body) {
             throw new Error('No body provided');
         }
         try {
-            return this._cartService.submitUserCart(ctx.request.body);
+            return await this._cartService.submitUserCart(ctx.request.body);
         } catch (error) {
             throw error;
         }

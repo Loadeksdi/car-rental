@@ -38,12 +38,13 @@ export class CartService {
         }
     }
 
-    submitUserCart(body: any): Cart{
+    async submitUserCart(body: any): Promise<Cart>{
         try {
             if(body.userId === undefined){
                 throw new Error("userId is mandatory")
             }
-            ExternalCalls.createBookingFromCart(body.userId, this._cartRepository.getUserCart(body.userId));
+            await ExternalCalls.callPaymentService();
+            await ExternalCalls.createBookingFromCart(body.userId, this._cartRepository.getUserCart(body.userId));
             return this._cartRepository.submitUserCart(body.userId);
         } catch (error) {
             throw error;
