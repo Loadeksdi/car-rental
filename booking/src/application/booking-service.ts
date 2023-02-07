@@ -10,16 +10,14 @@ export class BookingService {
 
     async addBooking(userId: number, body: any): Promise<Booking> {
         try {
-            const isAdmin = await ExternalCalls.isUserAgent(userId);
-            if (!isAdmin) {
-                throw new Error("Unsupported operation for user");
-            }
+            await ExternalCalls.isUserAgent(userId);
             if (body.startDate > body.endDate || body.startDate < new Date()) {
                 throw new Error("Invalid booking dates");
             }
             return await this._bookingRepository.addBooking(body);
         } catch (error) {
-            throw error;
+            // Throws if user does not exist
+            throw new Error("User does not exist");
         }
     }
 
